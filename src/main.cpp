@@ -36,7 +36,7 @@ void setup()
   Wire.begin();
 
   Serial.begin(115200);
-  delay(1000);
+  delay(1000); //Delay so AP33772 has enough time to bootup
   usbpd.begin(); // Start pulling the PDOs from power supply
   usbpd.printPDO();
 
@@ -76,7 +76,7 @@ void loop()
 {
 
   // Everyloop use rolling average to filter out noise from the pot.
-  targetVoltage = map(analogRead(A2), 20, 4080, 4000, 21000);
+  targetVoltage = map(analogRead(A2), 20, 4080, 4000, 21000); //USB-C voltage lower than 4.2V will cause the 3V3 rail to collapse
   myRA_V.addValue(targetVoltage); // Variable is redundance but display for code understanding
 
   targetCurrent = map(analogRead(A1), 20, 4080, 500, 5000);
@@ -98,8 +98,7 @@ void loop()
     oled.write("Current (mA): ");
     oled.println(usbpd.readCurrent());
 
-    // For debugging
-    oled.write("Targer current: ");
+    oled.write("Target current: ");
     oled.println(targetCurrent);
 
     oled.display();
